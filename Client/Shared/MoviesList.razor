@@ -1,0 +1,139 @@
+﻿@inject IJSRuntime js
+@*@if (Movies == null)
+	{
+		@if (NullTemplate != null)
+		{
+			@NullTemplate
+		}
+		else
+		{
+			<img src="https://68.media.tumblr.com/1409a1070f839aae4401cbd67d8f68fb/tumblr_ow192yPEzo1ti8ob9o1_250.gif" />
+		}
+	}
+	else if (!Movies.Any())
+	{
+		@if (EmptyTemplate != null)
+		{
+			@EmptyTemplate
+		}
+		else
+		{
+			<text>There are no records to show.</text>
+		}
+
+	}
+	else
+	{
+		<input type="checkbox" @onchange="@(() => displayButtons = !displayButtons )"/>
+
+		<input type="checkbox" @bind="displayButtons" />
+
+		@foreach (var movie in Movies)
+		{
+			<IndividualMovie Movie="movie" DisplayButtons="displayButtons" DeleteMovie="DeleteMovies" />
+		}
+
+		@for (var i = 0; i < Movies.Count; i++)
+			{
+				<div style="background-color: @(i %2 == 0 ? "blue": "red")">
+					<p>@(i+1))Title: <b>@Movies[i].Title</b></p>
+					<p>ReleaseDate: <b>@Movies[i].ReleaseDate.ToString("dd MMMM yyyy")</b></p>
+				</div>
+		}
+	}*@
+
+<div class="movies-container">
+
+@*<input type="checkbox" @bind="displayButtons" />*@
+
+	<GenericList TList="Movies">
+		<ElementTemplate Context="movie">
+			@*<IndividualMovie Movie="movie" DisplayButtons="displayButtons" DeleteMovie="DeleteMovie" />*@
+			<IndividualMovie Movie="movie" DeleteMovie="DeleteMovie" />
+		</ElementTemplate>
+	</GenericList>
+</div>
+
+
+@*<Confirmation @ref="confirmation" OnCancel="OnCancel" OnConfirm="OnConfirm">
+	<div>Do you wish to delete @movieToBeDeleted.Title?</div>
+</Confirmation>*@
+
+@code {
+
+	//Confirmation confirmation;
+
+	[Parameter]
+	public List<Movie> Movies { get; set; }
+
+	[Parameter]
+	public RenderFragment NullTemplate { get; set; }
+
+	[Parameter]
+	public RenderFragment EmptyTemplate { get; set; }
+
+	bool displayButtons = true;
+
+	Movie movieToBeDeleted;
+
+	//private void DeleteMovie(Movie movie)
+	//{
+	//	Movies.Remove(movie);
+	//}
+
+	//void OnConfirm()
+	//{
+	//	Movies.Remove(movieToBeDeleted);
+	//	confirmation.Hide();
+	//	movieToBeDeleted = null;
+	//}
+
+	//void OnCancel()
+	//{
+	//	confirmation.Hide();
+	//	movieToBeDeleted = null;
+	//}
+
+	private async Task DeleteMovie(Movie movie)
+	{
+		//movieToBeDeleted = movie;
+
+		//confirmation.Show();
+
+		//Movies.Remove(movie);
+
+		//var confirmed = await js.InvokeAsync<bool>("confirm", $"Are you sure want to delete movie - {movie.Title}?");
+		await js.myFunction("custom message");
+		var confirmed = await js.Confirm($"Are you sure want to delete movie - {movie.Title}?");
+
+		if (confirmed)
+		{
+			Movies.Remove(movie);
+		}
+	}
+
+	//protected override void OnInitialized()
+	//{
+	//	Console.WriteLine("OnInitialized. Movies.Count = " + Movies?.Count().ToString());
+	//}
+
+	//protected override void OnParametersSet()
+	//{
+	//	Console.WriteLine("OnParameterSet. Movies.Count = " + Movies?.Count().ToString());
+	//}
+
+	//protected override void OnAfterRender(bool firstRender)
+	//{
+	//	Console.WriteLine("OnAfterRender. FirstRender = " + firstRender.ToString());
+	//}
+
+	//protected override bool ShouldRender()
+	//{
+	//	return true;
+	//}
+
+	//public void DoSomething()
+	//{
+
+	//}
+}

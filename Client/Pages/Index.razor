@@ -1,0 +1,119 @@
+﻿@page "/"
+@page "/index"
+@inject IRepository repository
+@*@inject SingletonService singleton
+	@inject IRepository repository
+	@using static BlazorMoviesApp.Client.Shared.MainLayout;*@
+
+@*<p>Hello, @StringUtilities.CustomToUpper(name)</p>
+
+	<p>Let's add 2 + 2 = @(2 + 2) </p>
+
+	<button @onclick="@WriteInLog">Click Me</button>*@
+
+@*<p style="color:@AppState.Color;">SingletonService count: @singleton.Value</p>*@
+
+<div>
+	<h3>Movie</h3>
+	<MoviesList Movies="movies">
+
+		@*<span style="color:red">This is loading......</span>*@
+		@*<img src="https://68.media.tumblr.com/1409a1070f839aae4401cbd67d8f68fb/tumblr_ow192yPEzo1ti8ob9o1_250.gif" />*@
+		@*<NullTemplate>
+				<span style="color:red">This is loading......</span>
+			</NullTemplate>*@
+		@*<EmptyTemplate>
+				<span style="color:blue"><b>No records to display....</b></span>
+			</EmptyTemplate>*@
+	</MoviesList>
+
+	<!--<div>
+		<h2>Create Movies</h2>-->
+	@*<DummyTextbox placeholder="type movie name" disabled="true" />*@
+	@*<DummyTextbox @attributes="dummyTextBoxParameters" />*@
+	<!--<DummyTextbox placeholder="whatever" />
+	</div>-->
+	<button @onclick="AddNewMovie">Add new movie</button>
+
+</div>
+
+@code{
+	//[CascadingParameter]
+	//public AppState AppState { get; set; }
+
+	private MoviesList moviesList;
+
+	// Inside this block we can declare fields, properties, methods.
+
+	//string name = "Avinash A. Ghawali";
+
+	//List<Movie> movies;
+
+	//protected override void OnInitialized()
+	//{
+	//	movies = new List<Movie>()
+	//	{
+	//		new Movie(){ Title = "Spider-Man: Far From Home", ReleaseDate = new DateTime(2019, 7, 2) },
+	//		new Movie(){ Title = "Moana", ReleaseDate = new DateTime(2016, 11, 23) },
+	//		new Movie(){ Title = "Inception", ReleaseDate = new DateTime(2010, 7, 16) },
+	//		new Movie(){ Title = "Tomorrow War", ReleaseDate = new DateTime(2021, 5, 16) },
+	//	};
+	//}
+
+	//protected async override Task OnInitializedAsync()
+	//{
+	//	movies = new List<Movie>()
+	//	{
+	//		new Movie(){ Title = "<b>Spider-Man: Far From Home</b>", ReleaseDate = new DateTime(2019, 7, 2) },
+	//		new Movie(){ Title = "<i>Moana</i>", ReleaseDate = new DateTime(2016, 11, 23) },
+	//		new Movie(){ Title = "Inception", ReleaseDate = new DateTime(2010, 7, 16) },
+	//		new Movie(){ Title = "Tomorrow War", ReleaseDate = new DateTime(2021, 5, 16) },
+	//	};
+	//}
+
+
+	//Movie spriderMan = new Movie()
+	//{
+	//	Title = "Spider-Man: Far From Home",
+	//	ReleaseDate = new DateTime(2018, 01, 15)
+	//};
+
+	//void WriteInLog()
+	//{
+	//	Console.WriteLine("I've been clicked");
+	//}
+
+	private List<Movie> movies;
+
+	//private Dictionary<string, object> dummyTextBoxParameters = new Dictionary<string, object>
+	//				 {
+	//									{ "placeholder", "--type new movie name--"} ,
+	//									{ "disabled", "true"}
+	//								 };
+
+	protected override void OnInitialized()
+	{
+		movies = repository.GetMovies();
+		//moviesList.DoSomething();
+	}
+
+	//protected async override Task OnInitializedAsync()
+	//{
+	//	await Task.Delay(3000);
+
+	//	movies = new List<Movie>();
+
+	//	movies = new List<Movie>()
+	//	{
+	//		new Movie(){ Title = "Spider-Man: Far From Home", ReleaseDate = new DateTime(2019, 7, 2) },
+	//		new Movie(){ Title = "Moana", ReleaseDate = new DateTime(2016, 11, 23) },
+	//		new Movie(){ Title = "Inception", ReleaseDate = new DateTime(2010, 7, 16) },
+	//		new Movie(){ Title = "Tomorrow War", ReleaseDate = new DateTime(2021, 5, 16) },
+	//	};
+	//}
+
+	private void AddNewMovie()
+	{
+		movies.Add(new Movie() { Title = "Blazor Demo Movie", ReleaseDate = new DateTime(2021, 07, 14) });
+	}
+}
