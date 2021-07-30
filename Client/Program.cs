@@ -1,4 +1,5 @@
 using BlazorMoviesApp.Client.Helpers;
+using BlazorMoviesApp.Client.Repository;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,8 @@ namespace BlazorMoviesApp.Client
 			//services.AddSingleton<SingletonService>();
 			//services.AddTransient<TransientService>();
 			services.AddTransient<IRepository, RepositoryInMemory>();
+			services.AddScoped<IHttpService, HttpService>();
+			services.AddScoped<IGenreRepository, GenreRepository>();
 		}
 	}
 }

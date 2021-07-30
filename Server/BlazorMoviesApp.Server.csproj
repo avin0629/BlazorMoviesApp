@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <None Remove="Controllers\GenresController.cs~RF1cd8281d.TMP" />
+    <None Remove="Controllers\GenresController.cs~RF1ce119ca.TMP" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,6 @@
 ﻿@page "/genre/create"
+@inject IGenreRepository genreRepository;
+@inject NavigationManager navigationManager; 
 
 <h3>Create Genre</h3>
 
@@ -12,5 +14,16 @@
 	{
 		Console.WriteLine("Create Method");
 		Console.WriteLine(genre.Name);
+
+		try
+		{
+			genreRepository.CreateGenre(genre);
+			navigationManager.NavigateTo("genres");
+		}
+		catch (Exception ex)
+		{
+			//...;
+			Console.WriteLine(ex.Message);
+		}
 	}
 }

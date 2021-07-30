@@ -20,7 +20,7 @@ namespace BlazorMoviesApp.Server.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult> Post(Genre genre)
+		public async Task<ActionResult<int>> Post(Genre genre)
 		{
 			dbContext.Add(genre);
 			await dbContext.SaveChangesAsync();
