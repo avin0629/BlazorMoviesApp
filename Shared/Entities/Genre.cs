@@ -13,5 +13,7 @@ namespace BlazorMoviesApp.Shared.Entities
 
 		[Required(ErrorMessage = "This field is required.")]
 		public string Name { get; set; }
+
+		public List<MoviesGenres> MoviesGenres { get; set; } = new List<MoviesGenres>();
 	}
 }

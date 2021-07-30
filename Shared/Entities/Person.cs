@@ -15,9 +15,24 @@ namespace BlazorMoviesApp.Shared.Entities
 
 		public string Biography { get; set; }
 
-		public string Picture { get; set; } //= "https://m.media-amazon.com/images/M/MV5BNzZiNTEyNTItYjNhMS00YjI2LWIwMWQtZmYwYTRlNjMyZTJjXkEyXkFqcGdeQXVyMTExNzQzMDE0._V1_UX214_CR0,0,214,317_AL_.jpg";
+		public string Picture { get; set; }
 
 		[Required]
 		public DateTime? DateOfBirth { get; set; }
+
+		public override bool Equals(object obj)
+		{
+			if(obj is Person p2)
+			{
+				return Id == p2.Id;
+			}
+
+			return false;
+		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
 	}
 }

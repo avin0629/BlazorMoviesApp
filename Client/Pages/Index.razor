@@ -35,6 +35,12 @@
 	</div>-->
 	<button @onclick="AddNewMovie">Add new movie</button>
 
+	<CustomTypeahead SearchMethod="SearchMethod">
+		<ResultTemplate>
+			@context
+		</ResultTemplate>
+	</CustomTypeahead>
+
 </div>
 
 @code{
@@ -115,5 +121,19 @@
 	private void AddNewMovie()
 	{
 		movies.Add(new Movie() { Title = "Blazor Demo Movie", ReleaseDate = new DateTime(2021, 07, 14) });
+	}
+
+	private async Task<IEnumerable<string>> SearchMethod(string searchText)
+	{
+		await Task.Delay(2000);
+
+		if (searchText == "test")
+		{
+			return Enumerable.Empty<string>();
+		}
+		else
+		{
+			return new List<string>() { "Avinash", "Soham" };
+		}
 	}
 }

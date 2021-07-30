@@ -1,0 +1,157 @@
+Take away notes from Blazor:
+
+Introduction
+
+What is Blazor?
+What are Blazor Advantages and DisAdvantages?
+What is Blazor WebAssembly?
+	- We can use WebAssembly to execute .NET applications in a Web browser.
+Blazor (client-side)
+	- We can make HTTP request from client-side.
+	- Blazor (client-side + ASP.NET Core)
+What is Blazor Server-Side?
+WebAssembly vs Server-Side
+Where can we use Blazor?
+
+Introduction to Razor
+
+protected override void OnInitialized() in razor file - C# code.
+MarkupString - Rendered string HTML tags/syntax on web browser.
+
+Blazor Components:
+- Introduction to Components:
+A component is a reusable piece of user interface, which may contain logic.
+A form of an application, list of movies/objects can be a component.
+A component is a class
+Razor component are compiled to C# classes.
+
+- Parameters 
+A Component can receive parameters through its parameters.
+Parameters can be data, events, content.
+We can also user interface as parameters.
+
+- RenderdFragement
+Need to get more details....
+
+- Lifecycle of Components
+OnInitialized and OnInitializedAsync methods are used to initialize a component. At this stage we can trigger a HTTP request to server to obtain the data to be displayed in component.
+
+OnParametersSet and OnParametersSetAsync methods are executed when the component has received all parameters and their values has been assigned to respective properties. OnParametersSet methods are executed every-time when parameter value is updated.
+
+OnAfterRender and OnAfterRenderAsync methods are executed when the component has finish rendering. That is when the HTML is already displayed. This is the ideal stage to perform operation on this HTML elements. For example using a Java-script library to work on any of the HTML elements. This methods each time when component is render.  
+
+ShouldRender - methods is used to indicate if we want a component to render after it's initial rendering.
+
+Dependency Injection:
+Dependency Injection (DI) is a mechanism that allows to supply dependencies of a class from another class.
+In components we can configure DI using @inject tag.
+Default Services:
+HttpClient: Is used to make a HTTP requests to a web server.
+IJSRuntime: Allow us to perform operation with JavaScript.
+NavigationManager: Allow us to work with the users navigation system from our code. For example: With navigation manager we can redirect user to another part of the application.
+These 3 services do not have to be configured. They are service by default from framework.
+
+Life-cycle of a Service:
+Scoped: Lives within a context (like during an HTTP request).
+Blazor on the client side we do not work in the context of an HTTP request since the code runs in user browser. So Scoped behave like Singleton on Blazor on client side.
+Blazor on server side we do have a context which is a connection of the user and app in the server.
+
+Singleton: Single instance of service is created and same instance is been used forever. Until we restart/recycle application.
+
+Transient: Different instance of the services are created each time that service is requested.
+
+- JavaScript interaction with Blazor
+Microsoft.JSInterop.IJSRuntime
+	- InvokeAsync
+	- InvokeVoidAsync
+Microsoft.JSInterop.JSInvokable
+DotNet.invokeMethodAsync
+Promise in Java-script
+Microsoft.JSInterop.DotNetObjectReference.Create(this)
+
+- JavaScript isolation (delay load of JS files or lazy loading)
+With JavaScript isolation we can load certain Java-Script files depending on the component we are in.
+Rather download all Java-Script files at initial loading of application.
+Will going to download/load Java-Script file when we are inside of certain component.
+This will going to improve application load time and performance not downloading unnecessary JS files.
+The mechanism to achieve JavaScript isolation is to create Java-Script module. This module will going to load into memory and then will used via C# variable.
+Java-Script module creation:
+create a JS file specific to razor component.
+Add JS function and provide implementation.
+Add export keyword at start of function which will export that function into JS module.
+function displayAlert(message) {
+	return alert(message);
+}
+
+- CSS isolation
+
+- Reference (@ref) directive
+
+- Cascading Parameters: in this we can pass parameter value from Main (Parent) to child components.
+
+- Debug Blazor WebAssembly Apps:
+"inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+
+Routing:
+@page
+Routing rules help us define which component will appear on the screen according to the URL in which the user is located.
+These routing rules are configured using the @page directive.
+App.razor
+NaviagtionManager
+RouteParameters
+NavLInk
+LazyLoading
+
+Forms:
+First Form
+- Forms help us to capture information provided by user.
+- The EditForms component is useful for making a form based on a model.
+- We can perform validations with data annotations in the models.
+- With Data-Binding we can sync our form controls with our model, in a simple manner.
+- We can also create components that will act as control of a form.
+
+Validations
+- Validation rules allow us to define rules which our application will verfiy that they are compiled with before taking actions.
+- This Validation rules can be applied at model level, database level or in business layer level.
+
+Dropdown and Checkbox
+Dates, Images
+Multiple Selectors
+
+=========================================================================================================================
+
+Module 6 - HTTP y Databases
+
+HttpClient
+- To communicate with a Web API we use the HTTP protocol.
+- HttpClient is one of the default services that the framework offers us to work.
+- Default lifecycle of HttpClient is Singleton.
+
+Configure Entity Framework Core
+
+CRUD Operations
+
+Save images in Azure Storage
+
+Pagination
+
+Filters
+
+===================================================
+VS Code Command:
+dotnet new blazorwasm -h
+dotnet new blazorwasm -hosted
+code .
+
+=============================
+EF Core:
+PM> Add-Migration Initial 
+Build started...
+Build succeeded.
+To undo this action, use Remove-Migration.
+
+PM> Update-Database
+Build started...
+Build succeeded.
+Done.
+PM> 
