@@ -1,5 +1,6 @@
-﻿
-<EditForm Model="Movie" OnValidSubmit="OnValidSubmit">
+﻿@inject IPeopleRepository peopleRepository
+
+<EditForm Model="Movie" OnValidSubmit="OnDataAnnotationValidated">
 	<DataAnnotationsValidator />
 	<div class="form-group">
 		<label>Title:</label>
@@ -46,11 +47,11 @@
 		<label>Actors:</label>
 		<MultipleSelectorTypeahead Context="person" SearchMethod="SearchMethod" SelectedElements="SelectedActors">
 			<MyResultTemplate>
-				<img style="width:50px;" src="@person.Picture"/>
+				<img style="width:50px;" src="@person.Picture" />
 				@person.Name
 			</MyResultTemplate>
 			<MyListTemplate>
-				@person.Name
+				@person.Name / <input type="text" placeholder="Character" @bind-value="@person.Character" />
 			</MyListTemplate>
 		</MultipleSelectorTypeahead>
 	</div>
@@ -102,10 +103,20 @@
 
 	private async Task<IEnumerable<Person>> SearchMethod(string searchText)
 	{
-		return new List<Person>()
+		return await peopleRepository.GetPeopleByName(searchText);
+	}
+
+	private async Task OnDataAnnotationValidated()
+	{
+		Movie.MoviesGenres = Selected.Select(x => new MoviesGenres { GenreId = int.Parse(x.Key) }).ToList();
+
+		Movie.MoviesActors = SelectedActors.Select(x => new MoviesActors { PersonId = x.Id, Character = x.Character }).ToList();
+
+		if (!string.IsNullOrWhiteSpace(Movie.Poster))
 		{
-			new Person() { Id = 1, Name = "Tom Holland", Picture="https://m.media-amazon.com/images/M/MV5BNzZiNTEyNTItYjNhMS00YjI2LWIwMWQtZmYwYTRlNjMyZTJjXkEyXkFqcGdeQXVyMTExNzQzMDE0._V1_UX214_CR0,0,214,317_AL_.jpg"},
-			new Person() { Id = 1, Name = "Tom Hanks", Picture="https://m.media-amazon.com/images/M/MV5BMTQ2MjMwNDA3Nl5BMl5BanBnXkFtZTcwMTA2NDY3NQ@@._V1_UY317_CR2,0,214,317_AL_.jpg"},
-		};
+			imageURL = null;
+		}
+
+		await OnValidSubmit.InvokeAsync(null);
 	}
 }

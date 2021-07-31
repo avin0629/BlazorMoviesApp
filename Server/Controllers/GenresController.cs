@@ -26,5 +26,12 @@ namespace BlazorMoviesApp.Server.Controllers
 			await dbContext.SaveChangesAsync();
 			return genre.Id;
 		}
+
+		[HttpGet]
+		public async Task<ActionResult<List<Genre>>> Get()
+		{
+			return dbContext.Genres.ToList();
+		}
+
 	}
 }

@@ -21,13 +21,19 @@ else if (!TList.Any())
 	{
 		<text>There are no records to show.</text>
 	}
-
 }
 else
 {
-	@foreach (var element in TList)
+	@if (ElementTemplate != null)
 	{
-		@ElementTemplate(element)
+		@foreach (var element in TList)
+		{
+			@ElementTemplate(element)
+		}
+	}
+	else
+	{
+		@WholeListElementTemplate
 	}
 }
 
@@ -42,6 +48,9 @@ else
 
 	[Parameter]
 	public RenderFragment<TItem> ElementTemplate { get; set; }
+
+	[Parameter]
+	public RenderFragment WholeListElementTemplate { get; set; }
 
 	[Parameter]
 	public List<TItem> TList { get; set; }

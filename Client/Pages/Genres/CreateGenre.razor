@@ -10,14 +10,14 @@
 
 	private Genre genre = new Genre();
 
-	private void Create()
+	private async Task Create()
 	{
 		Console.WriteLine("Create Method");
 		Console.WriteLine(genre.Name);
 
 		try
 		{
-			genreRepository.CreateGenre(genre);
+			await this.genreRepository.CreateGenre(genre);
 			navigationManager.NavigateTo("genres");
 		}
 		catch (Exception ex)

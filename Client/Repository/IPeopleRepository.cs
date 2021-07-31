@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace BlazorMoviesApp.Client.Repository
 {
-	public interface IGenreRepository
+	interface IPeopleRepository
 	{
-		Task CreateGenre(Genre genre);
-
-		Task<List<Genre>> GetGenres();
+		Task CreatePerson(Person person);
+		Task<List<Person>> GetPeopleByName(string name);
+		Task<List<Person>> GetPersons();
 	}
 }

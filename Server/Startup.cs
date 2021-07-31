@@ -1,4 +1,5 @@
 using BlazorMoviesApp.Server.BlazorMoviesDatabase;
+using BlazorMoviesApp.Server.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -24,7 +25,10 @@ namespace BlazorMoviesApp.Server
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<BlazorMoviesDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-			services.AddControllersWithViews();
+			services.AddHttpContextAccessor();
+			services.AddScoped<IFileStorageService, InAppStorageService>();
+			services.AddControllersWithViews()
+					.AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 			services.AddRazorPages();
 		}
 
